@@ -39,7 +39,10 @@ class TForm(forms.ModelForm):
                      "select_radio",
                      "multiselect",
                      "multiselect_checks",
-                     forward.Field(src="multiselect_checks_poor"))
+                     forward.Field(src="multiselect_checks_poor"),
+                     forward.JavaScript(handler="const42", dst="const42"),
+                     forward.JavaScript(handler="reverse_name", dst="reverse_name"),
+                     )
 
         )
     )
@@ -55,3 +58,7 @@ class TForm(forms.ModelForm):
                   'multiselect_checks_poor',
                   'test')
 
+    class Media:
+        js = (
+            'js_handlers.js',
+        )

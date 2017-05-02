@@ -15,6 +15,10 @@ class ListWithForwardsView(autocomplete.Select2ListView):
         multiselect = self.forwarded.get("multiselect")
         multiselect_checks = self.forwarded.get("multiselect_checks")
         multiselect_checks_poor = self.forwarded.get("multiselect_checks_poor")
+        const42 = self.forwarded.get("const42")
+        reversed_name = self.forwarded.get("reverse_name")
+
+        print(reversed_name)
 
         if name == "Helen" and \
                 checkbox is True and \
@@ -22,7 +26,9 @@ class ListWithForwardsView(autocomplete.Select2ListView):
                 select_radio == "b" and \
                 multiselect == ["b", "c"] and \
                 multiselect_checks == ["a", "c"] and \
-                multiselect_checks_poor == ["d"]:
+                multiselect_checks_poor == ["d"] and \
+                const42 == 42 and \
+                reversed_name == "neleH":
             return ["It works!"]
         else:
             return ["Check another combination!"]

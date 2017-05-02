@@ -102,3 +102,24 @@ class Const(Forward):
         d.update(dst=self.dst)
 
         return d
+
+
+class JavaScript(Forward):
+    """
+    TODO
+    """
+
+    type = "javascript"
+
+    def __init__(self, handler, dst):
+        self.handler = handler
+        self.dst = dst
+
+    def to_dict(self):
+        """Convert to dictionary which will be rendered as JSON."""
+        d = super(JavaScript, self).to_dict()
+
+        d.update(handler=self.handler)
+        d.update(dst=self.dst)
+
+        return d

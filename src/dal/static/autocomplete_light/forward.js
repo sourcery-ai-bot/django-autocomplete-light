@@ -1,4 +1,14 @@
 ;(function($, yl) {
+    yl.forwardHandlerRegistry = yl.forwardHandlerRegistry || {};
+
+    yl.registerForwardHandler = function(name, handler) {
+        yl.forwardHandlerRegistry[name] = handler;
+    };
+
+    yl.getForwardHandler = function(name) {
+        return yl.forwardHandlerRegistry[name];
+    };
+
     function getForwardStrategy(element) {
         var checkForCheckboxes = function() {
             var all = true;
@@ -99,8 +109,7 @@
                     // Return elem.value
                     // or null if something went wrong
                     if (elem.hasOwnProperty("value") &&
-                        elem.value !== undefined
-                    ) {
+                            elem.value !== undefined) {
                         return elem.value;
                     } else {
                         return null;
@@ -127,8 +136,11 @@
                 } else {
                     forwardedData[dstName] = getSerializedFieldValueAt(0);
                 }
+            } else if (f.type === "javascript") {
+                var handler = yl.getForwardHandler(f.handler);
+                forwardedData[f.dst] = handler(element, prefix);
             }
         });
         return JSON.stringify(forwardedData);
-    }
+    };
 })(yl.jQuery, yl);
