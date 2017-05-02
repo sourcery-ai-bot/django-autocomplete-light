@@ -52,8 +52,7 @@
                 element.attr("id");
         form = element.length > 0 ? $(element[0].form) : $();
 
-        forwardElem =
-            form.find(divSelector).find('script');
+        forwardElem = form.find(divSelector).find('script');
         if (forwardElem.length === 0) {
             return;
         }
@@ -71,27 +70,7 @@
         forwardedData = {};
 
         $.each(forwardList, function(ix, f) {
-            if (f.type === "const") {
-                forwardedData[f.dst] = f.val;
-            } else if (f.type === "field") {
-                var srcName,
-                    dstName;
-                srcName = f.src;
-                if (f.hasOwnProperty("dst")) {
-                    dstName = f.dst;
-                } else {
-                    dstName = srcName;
-                }
-
-                // First look for this field in the inline
-                var fieldSelector = "[name=" + prefix + srcName + "]";
-                var field = $(fieldSelector);
-                if (!field.length) {
-                    // As a fallback, look for it outside the inline
-                    fieldSelector = "[name=" + srcName + "]";
-                    field = $(fieldSelector);
-                }
-
+            var getFieldValue = function(field) {
                 var strategy = getForwardStrategy(field);
                 var serializedField = field.serializeArray();
 
@@ -128,14 +107,44 @@
                 };
 
                 if (strategy === "multiple") {
-                    forwardedData[dstName] = serializedField.map(
+                    return serializedField.map(
                         function (item) { return getValueOf(item); }
                     );
                 } else if (strategy === "exists") {
-                    forwardedData[dstName] = serializedField.length > 0;
+                    return serializedField.length > 0;
                 } else {
-                    forwardedData[dstName] = getSerializedFieldValueAt(0);
+                    return getSerializedFieldValueAt(0);
                 }
+            };
+            if (f.type === "const") {
+                forwardedData[f.dst] = f.val;
+            } else if (f.type === "self") {
+                var dstName;
+                if (f.hasOwnProperty("dst")) {
+                    dstName = f.dst;
+                } else {
+                    dstName = "self";
+                }
+                forwardedData[dstName] = getFieldValue($(element));
+            } else if (f.type === "field") {
+                var srcName,
+                    dstName;
+                srcName = f.src;
+                if (f.hasOwnProperty("dst")) {
+                    dstName = f.dst;
+                } else {
+                    dstName = srcName;
+                }
+
+                // First look for this field in the inline
+                var fieldSelector = "[name=" + prefix + srcName + "]";
+                var field = $(fieldSelector);
+                if (!field.length) {
+                    // As a fallback, look for it outside the inline
+                    fieldSelector = "[name=" + srcName + "]";
+                    field = $(fieldSelector);
+                }
+                forwardedData[dstName] = getFieldValue(field);
             } else if (f.type === "javascript") {
                 var handler = yl.getForwardHandler(f.handler);
                 forwardedData[f.dst] = handler(element, prefix);

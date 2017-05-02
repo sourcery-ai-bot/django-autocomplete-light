@@ -17,6 +17,7 @@ class ListWithForwardsView(autocomplete.Select2ListView):
         multiselect_checks_poor = self.forwarded.get("multiselect_checks_poor")
         const42 = self.forwarded.get("const42")
         reversed_name = self.forwarded.get("reverse_name")
+        selve = self.forwarded.get("self")
 
         print(reversed_name)
 

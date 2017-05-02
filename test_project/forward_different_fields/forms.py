@@ -42,6 +42,7 @@ class TForm(forms.ModelForm):
                      forward.Field(src="multiselect_checks_poor"),
                      forward.JavaScript(handler="const42", dst="const42"),
                      forward.JavaScript(handler="reverse_name", dst="reverse_name"),
+                     forward.Self()
                      )
 
         )

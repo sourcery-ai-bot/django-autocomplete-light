@@ -123,3 +123,23 @@ class JavaScript(Forward):
         d.update(dst=self.dst)
 
         return d
+
+
+class Self(Forward):
+    """
+    TODO
+    """
+    type = "self"
+
+    def __init__(self, dst=None):
+        """Instantiate a forwarded field value."""
+        self.dst = dst
+
+    def to_dict(self):
+        """Convert to dictionary which will be rendered as JSON."""
+        d = super(Self, self).to_dict()
+
+        if self.dst is not None:
+            d.update(dst=self.dst)
+
+        return d
