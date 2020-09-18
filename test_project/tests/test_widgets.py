@@ -37,12 +37,16 @@ class SelectTest(test.TestCase):  # noqa
 
     def test_widget_renders_only_selected_with_url(self):
         """Assert that it won't render unselected choices, if given a url."""
+
+
         class Form(forms.Form):
             test = forms.ChoiceField(
-                choices=[(i, 'label for %s' % i) for i in range(0, 100)],
+                choices=[(i, 'label for %s' % i) for i in range(100)],
                 widget=Select(url=reverse('test_url')),
-                required=False
+                required=False,
             )
+
+
 
         form = Form(http.QueryDict('test=4'))
         expected = '''

@@ -91,7 +91,7 @@ INSTALLED_APPS = [
     'taggit',
 ]
 
-INSTALLED_APPS = INSTALLED_APPS + ['django.contrib.admin']
+INSTALLED_APPS += ['django.contrib.admin']
 
 DATABASES = get_databases(BASE_DIR)
 

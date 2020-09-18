@@ -41,7 +41,6 @@ class LinkedDataFormTest(test.TestCase):  # noqa
         self.assertEqual(TModel.objects.get(pk=instance.pk).test, fixture)
 
     def test_validate(self):
-        pass
         # Create an option to select
         fixture = TModel.objects.create(name=self.id(), owner=self.owner)
 
